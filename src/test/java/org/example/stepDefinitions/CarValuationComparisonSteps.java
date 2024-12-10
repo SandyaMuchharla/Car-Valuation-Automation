@@ -21,10 +21,10 @@ public class CarValuationComparisonSteps  {
     }
 
 
-    @Given("I go to car valuation website")
+    @Given("I go to the car valuation website")
     public void iGoToCarValuationWebsite() {
         carValuationComparisonPage.goToValuationSite(BASE_URL);
-        if (CarValuationComparisonPage.isElementDisplayed(carValuationComparisonPage.cookie)) {
+        if (carValuationComparisonPage.isElementDisplayed(carValuationComparisonPage.cookie)) {
             carValuationComparisonPage.cookie.click();
         }
     }
@@ -47,7 +47,6 @@ public class CarValuationComparisonSteps  {
     @Then("I verify the results with {string} file")
     public void iVerifyTheResultsWithCar_outputTxtFile(String fileName) throws IOException {
         List<List<String>> mismatchedCars = carValuationComparisonPage.compareAndAssert(fileName);
-        // Log mismatched cars and fail assertion if there are any mismatches
         if (!mismatchedCars.isEmpty()) {
             System.out.println("Mismatched Car Details: " + mismatchedCars);
             //2 of the car numbers(SG18HT, BW57BOF are not returning car details on the site, getting error as Sorry, we couldn't find your car

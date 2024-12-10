@@ -24,7 +24,7 @@ public class CarValuationComparisonPage extends DriverBase {
     private WebDriver driver;
     private static final String info = "//section[contains(@class,'primary-section')]//div[contains(@class,'details-vrm ng-star-inserted')] | //section[contains(@class,'primary-section')]//div[@class = 'd-table']//div[@class='d-table-cell value']";
     public final List<String> carDetails = new ArrayList<>();
-    public final  List<List<String>> allCarDetails = new ArrayList<>();
+    public final  List<List<String>> actualCarDetails = new ArrayList<>();
 
     public CarValuationComparisonPage() {
         WebDriver driverBase = getDriver();
@@ -63,7 +63,6 @@ public class CarValuationComparisonPage extends DriverBase {
     public List<String> extractCarNumbersFromInputFile(String filename, List<String> regNumbers){
         String carNumberPattern = "\\b[A-Z]{2}\\d{2}\\s?[A-Z]{3}\\b";
         Pattern pattern = Pattern.compile(carNumberPattern);
-
         try (BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/" + filename))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -96,16 +95,16 @@ public class CarValuationComparisonPage extends DriverBase {
 
         } else {
             carDetails.add(regNumber + ", " + errorMessage.getText());
-            allCarDetails.add(new ArrayList<>(carDetails));
+            actualCarDetails.add(new ArrayList<>(carDetails));
             carDetails.clear();
             return;
         }
-        allCarDetails.add(new ArrayList<>(carDetails));
+        actualCarDetails.add(new ArrayList<>(carDetails));
         carDetails.clear();
     }
     public List<List<String>> compareAndAssert(String fileName) throws IOException {
         List<List<String>> expectedCarDetails = parseCsv("src/test/resources/" + fileName);
-        System.out.println("Actual Registered Numbers: " + allCarDetails);
+        System.out.println("Actual Registered Numbers: " + actualCarDetails);
         System.out.println("Expected Registered Numbers: " + expectedCarDetails);
         List<List<String>> mismatchedCars = new ArrayList<>();
 
@@ -128,7 +127,7 @@ public class CarValuationComparisonPage extends DriverBase {
         // Iterate through expected car details(2 of the car numbers(SG18HT, BW57BOF are not returning car details on the site, getting error as Sorry, we couldn't find your car
         for (List<String> expectedCar : expectedCarDetails) {
             boolean matchFound = false;
-            for (List<String> actualCar : allCarDetails) {
+            for (List<String> actualCar : actualCarDetails) {
                 if (expectedCar.equals(actualCar)) {
                     matchFound = true;
                     System.out.println("Match found: " + expectedCar);
@@ -142,21 +141,19 @@ public class CarValuationComparisonPage extends DriverBase {
 
         return mismatchedCars;
     }
-    public static boolean isElementDisplayed(WebElement cookie) {
+    public boolean isElementDisplayed(WebElement cookie) {
         try {
             return cookie.isDisplayed();
         } catch (NoSuchElementException e) {
             return false;
         }
     }
-    public static List<List<String>> parseCsv(String filePath) throws IOException {
+    public List<List<String>> parseCsv(String filePath) throws IOException {
         List<List<String>> csvData = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
-            // Skip the header row
             br.readLine();
             while ((line = br.readLine()) != null) {
-                // Split by commas and trim each value
                 String[] values = line.split(",");
                 csvData.add(Arrays.asList(values));
             }
