@@ -2,14 +2,9 @@
 
 This project is a maven based project and uses Selenium with Java+Cucumber(BDD) framework.
 
-
-** vm options**
--ea
--Dbrowser=chrome
-
 **Executing tests**
 
-mvn clean test -Dbrowser="chrome"
+mvn clean test
 
 **To view the results in allure report**
 

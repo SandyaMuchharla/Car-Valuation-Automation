@@ -85,20 +85,16 @@ public class CarValuationComparisonPage extends DriverBase {
         vehicleReg.sendKeys(regNumber);
         mileage.sendKeys("40000");
         submit.click();
-        if(!isElementDisplayed(errorMessage)){
-            for (int i = 0; i < carInfo.size(); i++) {
-                if (i == 4) {
-                    break;
-                }
-                carDetails.add(carInfo.get(i).getText());
-            }
-
-        } else {
+        if (isElementDisplayed(errorMessage)) {
             carDetails.add(regNumber + ", " + errorMessage.getText());
             actualCarDetails.add(new ArrayList<>(carDetails));
             carDetails.clear();
             return;
         }
+        carInfo.stream()
+                .limit(4)
+                .map(WebElement::getText)
+                .forEach(carDetails::add);
         actualCarDetails.add(new ArrayList<>(carDetails));
         carDetails.clear();
     }
@@ -141,9 +137,9 @@ public class CarValuationComparisonPage extends DriverBase {
 
         return mismatchedCars;
     }
-    public boolean isElementDisplayed(WebElement cookie) {
+    public boolean isElementDisplayed(WebElement element) {
         try {
-            return cookie.isDisplayed();
+            return element.isDisplayed();
         } catch (NoSuchElementException e) {
             return false;
         }
