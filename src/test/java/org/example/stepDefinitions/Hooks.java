@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Hooks extends DriverBase{
-    private static final Logger logger = LoggerFactory.getLogger(Hooks.class);
     private DriverBase driverBase;
 
     @Before()
@@ -35,8 +34,6 @@ public class Hooks extends DriverBase{
     @After(order = 1)
     public void tearDown() {
         getDriver().quit();
-        System.out.println("After Test Thread ID: "+Thread.currentThread().getId());
-        logger.info("After Test Thread ID: "+Thread.currentThread().getId());
         tdriver.remove();
     }
 

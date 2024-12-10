@@ -50,7 +50,8 @@ public class CarValuationComparisonSteps  {
         // Log mismatched cars and fail assertion if there are any mismatches
         if (!mismatchedCars.isEmpty()) {
             System.out.println("Mismatched Car Details: " + mismatchedCars);
-            // 2 of the car numbers(SG18HT, BW57BOF are not returning car details on the site, getting error as Sorry, we couldn't find your car
+            //2 of the car numbers(SG18HT, BW57BOF are not returning car details on the site, getting error as Sorry, we couldn't find your car
+             //hence used Assert.fail() method
             Assert.fail("The following car details did not match with expected car output file: " + mismatchedCars);
         }
     }

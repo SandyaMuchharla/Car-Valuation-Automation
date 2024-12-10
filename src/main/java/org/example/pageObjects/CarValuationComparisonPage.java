@@ -8,6 +8,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -107,7 +109,23 @@ public class CarValuationComparisonPage extends DriverBase {
         System.out.println("Expected Registered Numbers: " + expectedCarDetails);
         List<List<String>> mismatchedCars = new ArrayList<>();
 
-        // Iterate through expected car details
+        /* Compare and assert(code to compare actual against expected
+        for (List<String> actualCar : allCarDetails) {
+            boolean matchFound = false;
+
+            for (List<String> expectedCar : expectedCarDetails) {
+                if (actualCar.equals(expectedCar)) {
+                    matchFound = true;
+                    System.out.println("Match found: " + actualCar);
+                    System.out.println("expectedCar: " + expectedCar);
+                    System.out.println("actualCar: " + actualCar);
+                    break;
+                }
+            }
+            Assert.assertTrue(matchFound, "No match found for: " + actualCar);
+        }*/
+
+        // Iterate through expected car details(2 of the car numbers(SG18HT, BW57BOF are not returning car details on the site, getting error as Sorry, we couldn't find your car
         for (List<String> expectedCar : expectedCarDetails) {
             boolean matchFound = false;
             for (List<String> actualCar : allCarDetails) {

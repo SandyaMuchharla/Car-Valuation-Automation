@@ -47,7 +47,6 @@ public class DriverBase {
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
         tdriver.set(driver);
-        System.out.println("Before Test Thread ID: " + Thread.currentThread().getId());
         return getDriver();
     }
         public synchronized WebDriver getDriver() {
